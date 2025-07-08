@@ -10,14 +10,13 @@ export type TestOptions = {
 
 export const test = base.extend<TestOptions>({
     pageManager: async ({ page }, use) => {
-        let pm = new PageManager(page)
-         
+        let pm = new PageManager(page)         
         await use(pm)
     }, 
      user: async ({}, use) => {
-    const user = createUser();
-        await use(user)
-    } 
+     const user = createUser();
+         await use(user)
+     } 
 })
 
 export { expect } from '@playwright/test';

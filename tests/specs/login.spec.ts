@@ -9,28 +9,31 @@ test.beforeEach(async ({ pageManager }) => {
 });
 
 test.afterEach(async ({ page }) => {
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(2000);
 });
 
-test.only('Register User', async ({ pageManager }) => {
+test.only('Register User', async ({ pageManager, user}) => {
    
-    //Create a new user using fake data 
-    const user = createUser();
-
-    //Click on Register link and fill the customer form
+    //Click on Register link and fill the customer form with the fake data created in fixture.ts
     await pageManager.onLoginOrRegister(user).clickOnRegister();    
     await pageManager.onCustomerForm().fillForm(user);
 
-    //After filling the data, click on Register button and check if the user was created correctly
+    //After filling the data, click on Register button
     const responseBody = await pageManager.onCustomerForm().registerAndCheck(pageManager);
-    await expect(responseBody).toContain('ParaBank | Customer Created');    
+
+    //Check if the user was created correctly
+    await expect(responseBody).toContain('ParaBank | Customer Created');   
+    console.log('*** New Customer created correctly: ', user.username, ' ***'); 
 
     //Logout once the user is registered
     await pageManager.onLeftPanel().clickOnLogOut();
+    console.log('*** Customer logged out successfully ***');
 
     //Login again with the credentials created
     await pageManager.onLoginOrRegister(user).login(user);
-
+    console.log('*** Customer', user.username, ' logged in successfully ***');
+    
     //Logout
     await pageManager.onLeftPanel().clickOnLogOut();
+    console.log('*** Customer logged out successfully ***');
 });

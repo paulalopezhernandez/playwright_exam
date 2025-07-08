@@ -2,7 +2,6 @@ import { faker } from "@faker-js/faker";
 
 export type User = {
 
-    uniqueid: number;
     firstname: string;
     lastname: string;
     address: string;
@@ -18,7 +17,6 @@ export type User = {
 
 export function createUser() : User {
     let user = { 
-        uniqueid: Date.now(),        
         firstname: faker.person.firstName(),
         lastname: faker.person.lastName(),
         address: faker.location.direction(),
